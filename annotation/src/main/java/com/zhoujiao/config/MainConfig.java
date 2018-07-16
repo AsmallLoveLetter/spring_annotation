@@ -1,6 +1,6 @@
 package com.zhoujiao.config;
 
-import com.zhoujiao.bean.Persion;
+import com.zhoujiao.bean.Person;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +23,7 @@ public class MainConfig {
 
     //给容器中注册一个Bean,Id默认是方法名
     @Bean(name = "persion")//     指定id
-    public Persion persion() {
-        return new Persion("list", 20);
+    public Person persion() {
+        return new Person("list", 20);
     }
 }
