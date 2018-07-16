@@ -23,5 +23,7 @@ public class MainTest {
       //默认单实例 值为true
       System.out.println(bean == bean1);
 
+
+
    }
 }
