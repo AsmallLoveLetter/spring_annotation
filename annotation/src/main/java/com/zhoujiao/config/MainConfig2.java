@@ -1,10 +1,13 @@
 package com.zhoujiao.config;
 
+import com.zhoujiao.bean.Color;
 import com.zhoujiao.bean.Person;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Scope;
+import com.zhoujiao.bean.Red;
+import com.zhoujiao.conditional.LinuxConditional;
+import com.zhoujiao.conditional.WindowsConditional;
+import com.zhoujiao.selector.MyImportBeanDefinitionRegistrar;
+import com.zhoujiao.selector.MyImportSelector;
+import org.springframework.context.annotation.*;
 
 /**
  * @Description By:
@@ -12,6 +15,8 @@ import org.springframework.context.annotation.Scope;
  * @Author : zhou jiao
  */
 @Configuration
+@Import({Color.class, Red.class, MyImportSelector.class, MyImportBeanDefinitionRegistrar.class})
+//@Import 快速导入组件 id为全类名
 public class MainConfig2 {
 
 
@@ -38,9 +43,28 @@ public class MainConfig2 {
     }
 
     /**
-     * Conditional ,按照一定的条件进行判断，满足条件给容器中注册bean
+     * Conditional({Conditional}) ,按照一定的条件进行判断，满足条件给容器中注册bean
      */
+    @Conditional({WindowsConditional.class})
+    @Bean(name = "bill")
     public Person personConditional() {
         return new Person("Bill", 100);
     }
+
+    @Conditional({LinuxConditional.class})
+    @Bean(name = "linus")
+    public Person personConditional1() {
+        return new Person("linus", 48);
+    }
+
+    /**
+     * 给容器中添加组件
+     *  1.包扫面+组件标注注解(@Controller/@Service/@Repository/@Component)
+     *  2.@Bean[导入的第三方包里面的组件]
+     *  3.@Import[快速给容器中导入一个组件] id默认为全类名
+     *      @Import({})直接安装类名进行导入
+     *      @ImportSelector;返回需要导入的
+     *      @ImportBeanDefinitionRegistrar;
+     *
+     */
 }

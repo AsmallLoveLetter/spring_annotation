@@ -1,10 +1,8 @@
 package com.zhoujiao.config;
 
 import com.zhoujiao.bean.Person;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
+import com.zhoujiao.conditional.LinuxConditional;
+import org.springframework.context.annotation.*;
 
 /**
  * @Description By:配置类
@@ -12,6 +10,8 @@ import org.springframework.context.annotation.FilterType;
  * @Author : zhou jiao
  */
 @Configuration //配置类
+//类中组件统一设置 满足当前条件,这个类中配置的所有Bean注册才能生效
+@Conditional({LinuxConditional.class})
 @ComponentScan(value = "com.zhoujiao",includeFilters = {
         @ComponentScan.Filter(type = FilterType.CUSTOM,classes = {MyTypeFilter.class})
 },useDefaultFilters = false)  //自动扫描注解   value指定要扫面的包
@@ -25,5 +25,10 @@ public class MainConfig {
     @Bean(name = "persion")//     指定id
     public Person persion() {
         return new Person("list", 20);
+    }
+
+    @Bean(name = "lisi")
+    public Person personlist() {
+        return new Person("lisi", 20);
     }
 }
