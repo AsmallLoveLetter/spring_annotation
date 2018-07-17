@@ -29,6 +29,7 @@ public class MainTest {
 
 
 
+
    }
 
    /**
@@ -56,5 +57,9 @@ public class MainTest {
       for (String definitionName : definitionNames) {
          System.out.println(definitionName);
       }
+
+      Object colorFactoryBean = applicationContext.getBean("colorFactoryBean");
+      System.out.println(colorFactoryBean.getClass());
+
    }
 }
