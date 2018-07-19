@@ -1,5 +1,6 @@
 import com.zhoujiao.bean.Person;
 import com.zhoujiao.config.MainConfig2;
+import com.zhoujiao.config.MainConfigOfLifeCycle;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -62,4 +63,20 @@ public class MainTest {
       System.out.println(colorFactoryBean.getClass());
 
    }
+
+    /**
+     * 生命周期测试
+     */
+    @Test
+    public void IOCTest_LifeCycel01() {
+        //创建IOC容器
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(MainConfigOfLifeCycle.class);
+        System.out.println("容器创建完成");
+//        String[] definitionNames = applicationContext.getBeanDefinitionNames();
+//        for (String definitionName : definitionNames) {
+//            System.out.println(definitionName);
+//        }
+       applicationContext.close();
+
+    }
 }
