@@ -1,5 +1,7 @@
 package com.zhoujiao.bean;
 
+import org.springframework.beans.factory.annotation.Value;
+
 /**
  * @Description By:
  * @Date : Created in 11:17 2018/7/16
@@ -8,7 +10,15 @@ package com.zhoujiao.bean;
 
 public class Person {
 
+    //使用value赋值
+    //1.基本数据
+    //2.可以写SpEl，#{}
+    //3.可以写${},取出配置文件中的值，
+
+    @Value("${person.name}")
     private String name;
+
+    @Value("#{20-18}")
     private int age;
 
     public String getName() {

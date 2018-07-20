@@ -1,9 +1,12 @@
+import com.zhoujiao.bean.Boss;
+import com.zhoujiao.bean.Car;
 import com.zhoujiao.bean.Person;
-import com.zhoujiao.config.MainConfig2;
-import com.zhoujiao.config.MainConfigOfLifeCycle;
+import com.zhoujiao.config.*;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
+
+import javax.sql.DataSource;
 
 /**
  * @Description By:
@@ -79,4 +82,56 @@ public class MainTest {
        applicationContext.close();
 
     }
+
+
+   /**
+    * 测试赋值
+    */
+   @Test
+   public void testValues() {
+      AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(MainConfigOfPropertyValues.class);
+      String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
+      for (String beanDefinitionName : beanDefinitionNames) {
+         System.out.println(beanDefinitionName);
+      }
+      Person person = (Person) applicationContext.getBean("person");
+      System.out.println(person);
+      ConfigurableEnvironment environment = applicationContext.getEnvironment();
+      String property = environment.getProperty("person.name");
+      String environmentProperty = environment.getProperty("person.age");
+      System.out.println(property+"...."+environmentProperty);
+   }
+
+
+   @Test
+   public void testAutowired() {
+      AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(MainConfigOfAutowired.class);
+      Boss bean = applicationContext.getBean(Boss.class);
+      /*BookDao bean1 = applicationContext.getBean(BookDao.class);*/
+      Car bean1 = applicationContext.getBean(Car.class);
+//      System.out.println(bean1);
+      System.out.println(bean);
+      System.out.println(bean1);
+   }
+
+   @Test
+   public void testProfile() {
+//      AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(MainConfigOfProfile.class);
+//      String[] beanNamesForType = applicationContext.getBeanNamesForType(DataSource.class);
+//      for (String s : beanNamesForType) {
+//         System.out.println(s);
+//      }
+      //创建一个ApplicationContext 无参
+      AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+      //设置需要激活的环境
+      applicationContext.getEnvironment().setActiveProfiles("test","dev");
+      //设置主配置类
+      applicationContext.register(MainConfigOfProfile.class);
+      //启动刷新容器
+      applicationContext.refresh();
+      String[] beanNamesForType = applicationContext.getBeanNamesForType(DataSource.class);
+      for (String s : beanNamesForType) {
+         System.out.println(s);
+      }
+   }
 }
